@@ -31,7 +31,7 @@ public class Main {
 
 		checkCurrentLetter(stream);
 
-		System.out.println("INPUT: No occurrences were found.");
+		System.out.println("OUTPUT: No occurrences were found.");
 	}
 
 	/**
