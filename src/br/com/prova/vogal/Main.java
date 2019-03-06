@@ -5,71 +5,41 @@ import java.util.List;
 
 public class Main {
 
+	private static final List<String> VOWELS = Arrays.asList("a", "e", "i", "o", "u", "A", "E", "I", "O", "U");
+	private static final List<String> CONSONANTS = Arrays.asList("b", "c", "d", "f", "g", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "z",
+																 "B", "C", "D", "F", "G", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Z");
+
 	public static void main(String[] args) {
-		StreamImpl impl = new StreamImpl("aAbBABacafe");
+		StreamImpl stream = new StreamImpl("aAbBABacafe");
 
-		while (impl.hasNext()) {
-			System.out.println(impl.getCurrent() + " is a vowel? " + isVowel(impl.getCurrent()));
-			System.out.println(impl.getCurrent() + " is a consonant? " + isConsonant(impl.getCurrent()));
+		System.out.println("INPUT: " + stream.getValue());
 
-			if (isVowel(impl.getCurrent()) && vowelAppearsJustOnce(impl.getValue(), impl.getCurrent())) {
-				System.out.println("vogal não se repete");
-				
-				if (isConsonant(impl.getBefore())){
-					
-					if(isVowel(impl.getBeforeBefore())) {
-						System.out.println("RESULTADO: " + impl.getCurrent());
-						System.exit(1);
-					}
-				}
-				
-			}
-
-			impl.increment();
-
-			System.out.println("------------------------------------------");
+		while (stream.hasNext()) {
+			extracted(stream);
+			stream.increment();
 		}
 
-		System.out.println(impl.getLast() + " is a vowel? " + isVowel(impl.getLast()));
-		System.out.println(impl.getLast() + " is a consonant? " + isConsonant(impl.getLast()));
+		extracted(stream);
 
-		if (isVowel(impl.getCurrent()) && vowelAppearsJustOnce(impl.getValue(), impl.getCurrent())) {
-			System.out.println("vogal não se repete");
-			
-			if (isConsonant(impl.getBefore())){
-				
-				if(isVowel(impl.getBeforeBefore())) {
-					System.out.println("RESULTADO: " + impl.getCurrent());
-					System.exit(1);
-				}
-			}
-			
-		}
-		
-		System.out.println("Não foi encontrado nenhum caso");
+		System.out.println("INPUT: No occurrences were found.");
 	}
 
 	private static boolean isVowel(char letter) {
-		if(letter == 0) {
-			return false;
-		}
-		
-		return Arrays.asList("a", "e", "i", "o", "u").contains(String.valueOf(letter));
+		return letter == 0 ? false : VOWELS.contains(String.valueOf(letter));
 	}
 
 	private static boolean isConsonant(char letter) {
-		
-		if(letter == 0) {
-			return false;
-		}
-		
-		List<String> consoantes = Arrays.asList("b", "c", "d", "f", "g", "j", "k", "l", "m", "n", "p", "q", "r", "s",
-				"t", "v", "w", "x", "z");
-
-		return consoantes.contains(String.valueOf(letter));
+		return letter == 0 ? false : CONSONANTS.contains(String.valueOf(letter));
 	}
 
-	private static boolean vowelAppearsJustOnce(String value, char vowel) {
-		return value.chars().filter(n -> n == vowel).count() == 1;
+	private static boolean vowelAppearsJustOnce(StreamImpl stream) {
+		return stream.getValue().chars().filter(n -> n == stream.getCurrent()).count() == 1;
+	}
+
+	private static void extracted(StreamImpl impl) {
+		if (isVowel(impl.getCurrent()) && vowelAppearsJustOnce(impl) && isConsonant(impl.getBefore()) && isVowel(impl.getBeforeBefore())) {
+			System.out.println("OUTPUT: " + impl.getCurrent());
+			System.exit(1);
+		}
 	}
 }

@@ -6,7 +6,7 @@ public class StreamImpl implements Stream {
 	private String value;
 
 	public StreamImpl(String value) {
-		this.value = value.toLowerCase();
+		this.value = value;
 		this.index = 0;
 	}
 
@@ -21,17 +21,13 @@ public class StreamImpl implements Stream {
 	public void increment() {
 		index++;
 	}
-	
+
 	public char getBefore() {
 		return index > 0 ? value.charAt(index - 1) : 0;
 	}
-	
+
 	public char getBeforeBefore() {
 		return index > 1 ? value.charAt(index - 2) : 0;
-	}
-
-	public char getLast() {
-		return value.charAt(value.length() - 1);
 	}
 
 	@Override
