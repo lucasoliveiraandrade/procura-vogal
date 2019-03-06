@@ -6,8 +6,12 @@ public class StreamImpl implements Stream {
 	private String value;
 
 	public StreamImpl(String value) {
-		this.value = value;
+		this.value = value.toLowerCase();
 		this.index = 0;
+	}
+
+	public String getValue() {
+		return this.value;
 	}
 
 	public char getCurrent() {
